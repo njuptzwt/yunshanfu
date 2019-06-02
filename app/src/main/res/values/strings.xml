@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">云闪付</string>
+    <string name="welcome">欢迎光临</string>
+    <string name="title_activity_bottom_navigation">BottomNavigation</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
