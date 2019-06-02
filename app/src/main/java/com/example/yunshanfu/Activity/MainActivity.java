@@ -1,9 +1,11 @@
-package com.example.yunshanfu;
+package com.example.yunshanfu.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+
+import com.example.yunshanfu.R;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         TimerTask timerTask=new TimerTask() {
             @Override
             public void run() {
-                Intent mainPageIntent=new Intent(MainActivity.this,MainPage1.class);
+                Intent mainPageIntent=new Intent(MainActivity.this, MainPage1.class);
                 startActivity(mainPageIntent);
                 MainActivity.this.finish();
             }

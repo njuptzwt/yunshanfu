@@ -1,8 +1,10 @@
-package com.example.yunshanfu;
+package com.example.yunshanfu.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+
+import com.example.yunshanfu.R;
 
 public class SearchViewActivity extends AppCompatActivity {
 

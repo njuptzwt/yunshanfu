@@ -1,6 +1,8 @@
-package com.example.yunshanfu;
+package com.example.yunshanfu.Model;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     private String description;
 

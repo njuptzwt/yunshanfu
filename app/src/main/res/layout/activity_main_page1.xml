@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainPage1">
+    tools:context=".Activity.MainPage1">
 
     <!--着重解决如何使得控件能够在一个水平面上平行布置,使用RelativeLayout布局
     ，使用height控制控件的高度一样，然后在居中对齐-->
@@ -64,5 +64,22 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
         android:orientation="vertical" />
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabIndicatorHeight="3dp"></android.support.design.widget.TabLayout>
+
+    <!--控件不可见可以设置-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/content_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:visibility="visible"></android.support.v4.view.ViewPager>
 
 </LinearLayout>

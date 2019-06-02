@@ -1,4 +1,4 @@
-package com.example.yunshanfu;
+package com.example.yunshanfu.Adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,24 +9,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.yunshanfu.Model.Item;
+import com.example.yunshanfu.R;
+
 import java.util.List;
 
 /**
  * 使用ViewHolder和Adapter来做recyclerView的适配
+ * tab页的adapter
  */
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+public class TabItemAdapter extends RecyclerView.Adapter<TabItemAdapter.ViewHolder> {
 
     private List<Item> mItemlist;
 
-    public ItemAdapter(List<Item> mItemlist) {
+    public TabItemAdapter(List<Item> mItemlist) {
         this.mItemlist = mItemlist;
     }
 
     @NonNull
     @Override
-    public ItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public TabItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         // 获取单个item的实例，构造ViewHolder,ViewHolder在RecyclerView显示
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.grid_item_layout, viewGroup,
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.grid_layout_item_tab, viewGroup,
                 false);
         final ViewHolder holder = new ViewHolder(view);
         // 为每一个组件的点击添加监听事件
@@ -50,7 +54,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull TabItemAdapter.ViewHolder viewHolder, int i) {
         Item item = mItemlist.get(i);
         viewHolder.itemImage.setImageResource(item.getImageId());
         viewHolder.itemDescription.setText(item.getDescription());
@@ -73,3 +77,4 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         }
     }
 }
+

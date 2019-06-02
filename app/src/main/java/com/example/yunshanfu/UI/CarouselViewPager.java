@@ -6,11 +6,12 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 
 /**
- *使用自定义的ViewPager来实现滚动页面
+ * 使用自定义的ViewPager来实现滚动页面
  */
 public class CarouselViewPager extends ViewPager {
 
     private int displayTime = 3000;//图片展示的时间，默认为3秒
+
     private CarouselDirection direction = CarouselDirection.LEFT;//图片自动滑动的方向向左
 
     public CarouselViewPager(Context context) {
@@ -23,14 +24,16 @@ public class CarouselViewPager extends ViewPager {
 
     /**
      * 设置图片展示时间
+     *
      * @param time
      */
-    public void setDisplayTime(int time){
+    public void setDisplayTime(int time) {
         displayTime = time;
     }
 
     /**
      * 设置图片自动滑动的方向
+     *
      * @param direction
      */
     public void setDirection(CarouselDirection direction) {
@@ -40,15 +43,15 @@ public class CarouselViewPager extends ViewPager {
     /**
      * 开始自动轮播
      */
-    public void start(){
+    public void start() {
         stop();
-        postDelayed(automaticDisplay,displayTime);
+        postDelayed(automaticDisplay, displayTime);
     }
 
     /**
      * 停止自动轮播
      */
-    public void stop(){
+    public void stop() {
         removeCallbacks(automaticDisplay);
     }
 
@@ -56,7 +59,7 @@ public class CarouselViewPager extends ViewPager {
      * 图片轮播方向枚举类
      */
     public enum CarouselDirection {
-        LEFT,RIGHT
+        LEFT, RIGHT
     }
 
     private Runnable automaticDisplay = new Runnable() {
@@ -68,11 +71,12 @@ public class CarouselViewPager extends ViewPager {
 
     /**
      * 图片轮播
+     *
      * @param direction
      */
     private synchronized void display(CarouselDirection direction) {
         PagerAdapter pagerAdapter = getAdapter();
-        if (pagerAdapter != null ) {
+        if (pagerAdapter != null) {
             int count = pagerAdapter.getCount();//图片的张数
             int currentItem = getCurrentItem();//当前展示到第几张
 
@@ -80,15 +84,15 @@ public class CarouselViewPager extends ViewPager {
                 case LEFT:
                     currentItem++;
                     //当前展示的图片为最后一张时，则返回第一张
-                    if (currentItem >= count ){
+                    if (currentItem >= count) {
                         currentItem = 0;
                     }
                     break;
                 case RIGHT:
                     currentItem--;
                     //当前展示的图片为最后一张时，则返回第一张
-                    if (currentItem < 0){
-                        currentItem = count-1;
+                    if (currentItem < 0) {
+                        currentItem = count - 1;
                     }
                     break;
             }
