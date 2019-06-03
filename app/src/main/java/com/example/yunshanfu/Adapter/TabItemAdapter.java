@@ -56,6 +56,8 @@ public class TabItemAdapter extends RecyclerView.Adapter<TabItemAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull TabItemAdapter.ViewHolder viewHolder, int i) {
         Item item = mItemlist.get(i);
+        // 设置图片为圆角，可以抽象成一个方法
+
         viewHolder.itemImage.setImageResource(item.getImageId());
         viewHolder.itemDescription.setText(item.getDescription());
     }

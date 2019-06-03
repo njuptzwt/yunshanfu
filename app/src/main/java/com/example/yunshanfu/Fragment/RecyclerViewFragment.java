@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.yunshanfu.Adapter.TabItemAdapter;
 import com.example.yunshanfu.Model.Item;
-import com.example.yunshanfu.Adapter.ItemAdapter;
 import com.example.yunshanfu.R;
 
 import java.io.Serializable;
@@ -47,15 +47,12 @@ public class RecyclerViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
         recyclerView = view.findViewById(R.id.RV1);
         // 设置RecyclerView的Adapter
-        // 换个View试一下
-        // View view1=inflater.inflate(R.layout.activity_main_page1,container,false);
-        // GridLayoutManager layoutManager = new GridLayoutManager(view1.getContext(), 2);
         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         // 配置适配器
         Bundle bundle = getArguments();
-        // 传递真实值
-        ItemAdapter itemAdapter = new ItemAdapter((List<Item>) bundle.get("itemlist"));
+        // 传递真实值,傻逼了，没调用，刚开始。itemAdapter修改成TabItemAdapter
+        TabItemAdapter itemAdapter = new TabItemAdapter((List<Item>) bundle.get("itemlist"));
         recyclerView.setAdapter(itemAdapter);
         return view;
     }

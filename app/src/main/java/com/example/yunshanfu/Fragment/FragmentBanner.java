@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-   生成Fragement,用于轮播图
+ * 生成Fragement,用于轮播图
  */
 public class FragmentBanner extends Fragment implements ViewPager.OnPageChangeListener {
     private CarouselViewPager mCarouselView;
@@ -53,15 +53,16 @@ public class FragmentBanner extends Fragment implements ViewPager.OnPageChangeLi
             ImageView iv = new ImageView(getActivity());
             //得到资源文件的BitMap
             Bitmap image = BitmapFactory.decodeResource(getResources(), ivIds[i]);
-           //创建RoundedBitmapDrawable对象
+            //创建RoundedBitmapDrawable对象
             RoundedBitmapDrawable roundImg = RoundedBitmapDrawableFactory.create(getResources(), image);
             //抗锯齿
             roundImg.setAntiAlias(true);
-           //设置圆角半径
-            roundImg.setCornerRadius(100);
-           //设置显示图片
+            //设置圆角半径
+            roundImg.setCornerRadius(50);
+            //设置显示图片
             iv.setImageDrawable(roundImg);
-
+            // 强制设置图片的宽度为布局中所示的宽度
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
             //iv.setImageResource(ivIds[i]);
             ivList.add(iv);
         }
@@ -69,8 +70,9 @@ public class FragmentBanner extends Fragment implements ViewPager.OnPageChangeLi
         indicationPoint = new ImageView[ivList.size()];
         for (int i = 0; i < indicationPoint.length; i++) {
             ImageView point = new ImageView(getActivity());
-            LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(10, 10);
-            layout.setMargins(10, 0, 10, 0);
+            // 控制底部的轮播滚动Indicator
+            LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(25, 25);
+            layout.setMargins(25, 5, 25, 0);
             point.setLayoutParams(layout);
 
             indicationPoint[i] = point;

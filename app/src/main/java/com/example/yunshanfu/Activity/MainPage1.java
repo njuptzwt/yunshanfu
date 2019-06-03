@@ -52,6 +52,8 @@ public class MainPage1 extends AppCompatActivity {
         searchView = findViewById(R.id.sv1);
         searchView.setQueryHint("请输入商品号");
         searchView.setIconifiedByDefault(false);
+        // 设置SerachView失去焦点
+        searchView.setFocusable(false);
         // 配置GridView相关
         initItems();
         recyclerView = findViewById(R.id.Rc1);
@@ -60,7 +62,7 @@ public class MainPage1 extends AppCompatActivity {
         ItemAdapter itemAdapter = new ItemAdapter(itemList);
         recyclerView.setAdapter(itemAdapter);
 
-        // 添加Fragment到Activity中
+        // 添加Banner_Fragment到Activity中
         FragmentManager fragmentManager = getSupportFragmentManager();
         // 由fragment manager管理
         // 动态添加fragment中
@@ -87,53 +89,37 @@ public class MainPage1 extends AppCompatActivity {
     }
     public void init_List() {
         Item item1 = new Item();
-        item1.setDescription("乘车码");
+        item1.setDescription("公交随即立减20元");
         item1.setImageId(R.drawable.tab1);
         tabItemList.add(item1);
         Item item2 = new Item();
-        item2.setDescription("转账");
+        item2.setDescription("一折爽爽购");
         item2.setImageId(R.drawable.tab2);
         tabItemList.add(item2);
         Item item3 = new Item();
         item3.setImageId(R.drawable.tab3);
-        item3.setDescription("信用卡还款");
+        item3.setDescription("福利时间");
         tabItemList.add(item3);
         Item item4 = new Item();
-        item4.setDescription("QQ充值");
+        item4.setDescription("来伊份打折");
         item4.setImageId(R.drawable.tab4);
         tabItemList.add(item4);
         Item item5 = new Item();
-        item5.setDescription("公共缴费");
+        item5.setDescription("公交随即立减20元");
         item5.setImageId(R.drawable.tab1);
         tabItemList.add(item5);
         Item item6 = new Item();
         item6.setImageId(R.drawable.tab2);
-        item6.setDescription("QQ信贷");
+        item6.setDescription("公交随即立减20元");
         tabItemList.add(item6);
         Item item7 = new Item();
         item7.setImageId(R.drawable.tab3);
-        item7.setDescription("微信理财");
+        item7.setDescription("一折爽爽购");
         tabItemList.add(item7);
         Item item8 = new Item();
         item8.setImageId(R.drawable.tab4);
-        item8.setDescription("更多");
+        item8.setDescription("来伊份打折");
         tabItemList.add(item8);
-        Item item9 = new Item();
-        item9.setDescription("乘车码");
-        item9.setImageId(R.drawable.tab1);
-        tabItemList.add(item9);
-        Item item10 = new Item();
-        item10.setDescription("转账");
-        item10.setImageId(R.drawable.tab2);
-        tabItemList.add(item10);
-        Item item11 = new Item();
-        item11.setImageId(R.drawable.tab3);
-        item11.setDescription("信用卡还款");
-        tabItemList.add(item11);
-        Item item12 = new Item();
-        item12.setDescription("QQ充值");
-        item12.setImageId(R.drawable.tab4);
-        tabItemList.add(item12);
     }
 
     private void initItems() {

@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:paddingLeft="5dp">
+        android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/t1"
@@ -35,7 +34,7 @@
             android:layout_margin="10dp"
             android:layout_toEndOf="@+id/t1"
             android:background="@drawable/yuan"
-            android:gravity="center"
+
             app:iconifiedByDefault="false" />
 
         <android.support.v7.widget.AppCompatImageView
@@ -62,24 +61,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:orientation="vertical" />
 
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabIndicatorHeight="3dp"></android.support.design.widget.TabLayout>
-
-    <!--控件不可见可以设置-->
-    <android.support.v4.view.ViewPager
-        android:id="@+id/content_vp"
+    <LinearLayout
+        android:id="@+id/tab_layout_middle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp"
-        android:visibility="visible"></android.support.v4.view.ViewPager>
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorHeight="3dp">
+        </android.support.design.widget.TabLayout>
+
+        <!--控件不可见可以设置-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/content_vp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:visibility="visible">
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
 
 </LinearLayout>

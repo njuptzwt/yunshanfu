@@ -19,5 +19,6 @@ public class SearchViewActivity extends AppCompatActivity {
         searchView.setQueryHint("请输入搜索内容");
         //设置搜索图标是否显示在搜索框内
         searchView.setIconifiedByDefault(false);
+        searchView.setFocusable(false);
     }
 }
