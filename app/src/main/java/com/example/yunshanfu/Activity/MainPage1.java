@@ -10,6 +10,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.yunshanfu.Adapter.ItemAdapter;
 import com.example.yunshanfu.Adapter.TabPagerAdapter;
@@ -18,8 +21,11 @@ import com.example.yunshanfu.Fragment.RecyclerViewFragment;
 import com.example.yunshanfu.Model.Item;
 import com.example.yunshanfu.R;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.yunshanfu.Utils.DensityUtils.dip2px;
 
 /**
  * 首页的Activity,银联首页的Activity
@@ -74,6 +80,7 @@ public class MainPage1 extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("热门活动"));
         tabLayout.addTab(tabLayout.newTab().setText("好优惠"));
         tabLayout.addTab(tabLayout.newTab().setText("权益精选"));
+
         init_List();
         fragments.add(RecyclerViewFragment.newInstace(tabItemList));
         fragments.add(RecyclerViewFragment.newInstace(tabItemList));
@@ -86,7 +93,10 @@ public class MainPage1 extends AppCompatActivity {
         tabPagerAdapter.setTabFragments(fragments);
         viewPager.setAdapter(tabPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        // 函数无效，直接用配置的属性有效
+        tabLayout=reflex(tabLayout);
     }
+
     public void init_List() {
         Item item1 = new Item();
         item1.setDescription("公交随即立减20元");
@@ -155,5 +165,50 @@ public class MainPage1 extends AppCompatActivity {
         item8.setImageId(R.drawable.img_guide_1);
         item8.setDescription("更多");
         itemList.add(item8);
+    }
+
+    // 设置TabLayout的Indicator的宽度为自适应Text的长度，阅读TabLayout的源码
+    public TabLayout reflex(final TabLayout tabLayout) {
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //拿到tabLayout的mTabStrip属性
+                    LinearLayout mTabStrip = (LinearLayout) tabLayout.getChildAt(0);
+
+                    int dp10 = dip2px(tabLayout.getContext(), 10);
+
+                    for (int i = 0; i < mTabStrip.getChildCount(); i++) {
+                        View tabView = mTabStrip.getChildAt(i);
+
+                        //拿到tabView的mTextView属性  tab的字数不固定一定用反射取mTextView
+                        Field mTextViewField = tabView.getClass().getDeclaredField("mTextView");
+                        mTextViewField.setAccessible(true);
+                        TextView mTextView = (TextView) mTextViewField.get(tabView);
+                        tabView.setPadding(0, 0, 0, 0);
+                        //因为我想要的效果是   字多宽线就多宽，所以测量mTextView的宽度
+                        int width = 0;
+                        width = mTextView.getWidth();
+                        if (width == 0) {
+                            mTextView.measure(0, 0);
+                            width = mTextView.getMeasuredWidth();
+                        }
+                        //设置tab左右间距为10dp  注意这里不能使用Padding 因为源码中线的宽度是根据 tabView的宽度来设置的
+                        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tabView.getLayoutParams();
+                        params.width = width;
+                        params.leftMargin = dp10;
+                        params.rightMargin = dp10;
+                        tabView.setLayoutParams(params);
+                        tabView.invalidate();
+                    }
+
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return tabLayout;
     }
 }

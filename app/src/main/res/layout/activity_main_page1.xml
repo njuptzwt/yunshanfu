@@ -71,11 +71,15 @@
         android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
+        <!--API28中使用app:tabIndicatorFullWidth="false"来控制自适应的的横线宽度-->
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:tabIndicatorColor="@color/colorAccent"
+            app:tabBackground="@android:color/transparent"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="3dp">
         </android.support.design.widget.TabLayout>
 
