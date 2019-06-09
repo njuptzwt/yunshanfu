@@ -1,5 +1,6 @@
 package com.example.yunshanfu.Activity;
 
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,6 +12,7 @@ import android.widget.RadioGroup;
 
 import com.example.yunshanfu.Fragment.BlankFragment;
 import com.example.yunshanfu.Fragment.IndexFragment;
+import com.example.yunshanfu.Fragment.QRCodeFragment;
 import com.example.yunshanfu.R;
 
 import java.util.ArrayList;
@@ -19,10 +21,11 @@ import java.util.List;
 /**
  * 主界面Activity，可以加载同一个页面的三种不同的Fragment页面
  */
-public class FrameLayoutActivity extends AppCompatActivity {
+public class FrameLayoutActivity extends AppCompatActivity implements QRCodeFragment.OnFragmentInteractionListener {
 
     // 云闪付中间页面，使用的Fragment(需要使用Fragment中嵌套Fragment),首页
     IndexFragment indexFragment = new IndexFragment();
+    QRCodeFragment qrCodeFragment=new QRCodeFragment();
     private ViewPager mViewPager;
     private RadioGroup mTabRadioGroup;
     private List<Fragment> mFragments;
@@ -41,7 +44,7 @@ public class FrameLayoutActivity extends AppCompatActivity {
         mTabRadioGroup = findViewById(R.id.tabs_rg);
         // init fragment
         mFragments = new ArrayList<>(3);
-        mFragments.add(BlankFragment.newInstance("收付款"));
+        mFragments.add(qrCodeFragment);
         mFragments.add(indexFragment);
         mFragments.add(BlankFragment.newInstance("卡管理"));
         // init view pager
@@ -96,6 +99,12 @@ public class FrameLayoutActivity extends AppCompatActivity {
             }
         }
     };
+
+    // 实现Fragment之间的通信
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 
     // Adapter适配
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
