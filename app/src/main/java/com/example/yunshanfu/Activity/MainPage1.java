@@ -168,6 +168,7 @@ public class MainPage1 extends AppCompatActivity {
     }
 
     // 设置TabLayout的Indicator的宽度为自适应Text的长度，阅读TabLayout的源码
+    // 要求对组件的源码和属性熟悉
     public TabLayout reflex(final TabLayout tabLayout) {
         tabLayout.post(new Runnable() {
             @Override
