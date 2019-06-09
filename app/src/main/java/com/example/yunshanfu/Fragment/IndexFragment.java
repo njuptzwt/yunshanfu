@@ -1,102 +1,85 @@
-package com.example.yunshanfu.Activity;
+package com.example.yunshanfu.Fragment;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import android.view.ViewGroup;
 import com.example.yunshanfu.Adapter.ItemAdapter;
 import com.example.yunshanfu.Adapter.TabPagerAdapter;
-import com.example.yunshanfu.Fragment.FragmentBanner;
-import com.example.yunshanfu.Fragment.RecyclerViewFragment;
 import com.example.yunshanfu.Model.Item;
 import com.example.yunshanfu.R;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.yunshanfu.Utils.DensityUtils.dip2px;
+public class IndexFragment extends Fragment {
 
-/**
- * 首页的Activity,银联首页的Activity
- */
-public class MainPage1 extends AppCompatActivity {
 
+    // SearchView的搜索框
     private SearchView searchView;
-
-    private List<Item> itemList = new ArrayList<>();
-
+    // GridView视图，静态指定
     private RecyclerView recyclerView;
-
-    private FragmentBanner fragmentBanner = new FragmentBanner();
-
-    // 配置tablayou和pageview和fragment
+    private List<Item> itemList = new ArrayList<>();
+    // 轮播图fragment
+    FragmentBanner fragmentBanner = new FragmentBanner();
+    // 配置TabLayout+ViewPager+Fragment
     private TabLayout tabLayout;
-
     private List<Fragment> fragments = new ArrayList<>();
-
     ViewPager viewPager;
-
     private List<Item> tabItemList = new ArrayList<>();
     //
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_page1);
-        // 配置searchView
-        searchView = findViewById(R.id.sv1);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // 获取index_fragment的布局,初始化布局
+        View view = inflater.inflate(R.layout.index_fragment, container, false);
+        tabLayout = view.findViewById(R.id.tab_layout);
+        viewPager = view.findViewById(R.id.content_vp);
+        recyclerView=view.findViewById(R.id.RC1);
+        initItems();
+        // 配置SearchView相关
+        searchView = view.findViewById(R.id.sv1);
         searchView.setQueryHint("请输入商品号");
         searchView.setIconifiedByDefault(false);
         // 设置SerachView失去焦点
         searchView.setFocusable(false);
-        // 配置GridView相关
-        initItems();
-        recyclerView = findViewById(R.id.Rc1);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
+        // 布局赋值，8个GridView
+        GridLayoutManager layoutManager = new GridLayoutManager(container.getContext(), 4);
         recyclerView.setLayoutManager(layoutManager);
         ItemAdapter itemAdapter = new ItemAdapter(itemList);
         recyclerView.setAdapter(itemAdapter);
-
-        // 添加Banner_Fragment到Activity中
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        // 由fragment manager管理
-        // 动态添加fragment中
-        fragmentManager.beginTransaction().add(R.id.main_fragment, fragmentBanner).commit();
-
-        //添加tablayout相关
-        tabLayout = findViewById(R.id.tab_layout);
-        viewPager = findViewById(R.id.content_vp);
+        // 轮播图的fragment配置
+        FragmentManager fragmentManager = getChildFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.banner_fragment,fragmentBanner).commit();
+        // TabLayout的配置
         tabLayout.addTab(tabLayout.newTab().setText("热门活动"));
         tabLayout.addTab(tabLayout.newTab().setText("好优惠"));
         tabLayout.addTab(tabLayout.newTab().setText("权益精选"));
-
         init_List();
         fragments.add(RecyclerViewFragment.newInstace(tabItemList));
         fragments.add(RecyclerViewFragment.newInstace(tabItemList));
         fragments.add(RecyclerViewFragment.newInstace(tabItemList));
-        Log.e("TextFragment", "init");
-        viewPager = findViewById(R.id.content_vp);
-
         // 绑定适配器
-        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
+        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getChildFragmentManager());
         tabPagerAdapter.setTabFragments(fragments);
         viewPager.setAdapter(tabPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        // 函数无效，直接用配置的属性有效
-        tabLayout=reflex(tabLayout);
+        return view;
     }
 
+    /**
+     * 静态初始化Tablayout的初始化数据
+     */
     public void init_List() {
         Item item1 = new Item();
         item1.setDescription("公交随即立减20元");
@@ -131,7 +114,9 @@ public class MainPage1 extends AppCompatActivity {
         item8.setDescription("来伊份打折");
         tabItemList.add(item8);
     }
-
+    /**
+     * 静态初始化GridLayout的初始组件
+     */
     private void initItems() {
         Item item1 = new Item();
         item1.setDescription("乘车码");
@@ -165,51 +150,5 @@ public class MainPage1 extends AppCompatActivity {
         item8.setImageId(R.drawable.img_guide_1);
         item8.setDescription("更多");
         itemList.add(item8);
-    }
-
-    // 设置TabLayout的Indicator的宽度为自适应Text的长度，阅读TabLayout的源码
-    // 要求对组件的源码和属性熟悉
-    public TabLayout reflex(final TabLayout tabLayout) {
-        tabLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //拿到tabLayout的mTabStrip属性
-                    LinearLayout mTabStrip = (LinearLayout) tabLayout.getChildAt(0);
-
-                    int dp10 = dip2px(tabLayout.getContext(), 10);
-
-                    for (int i = 0; i < mTabStrip.getChildCount(); i++) {
-                        View tabView = mTabStrip.getChildAt(i);
-
-                        //拿到tabView的mTextView属性  tab的字数不固定一定用反射取mTextView
-                        Field mTextViewField = tabView.getClass().getDeclaredField("mTextView");
-                        mTextViewField.setAccessible(true);
-                        TextView mTextView = (TextView) mTextViewField.get(tabView);
-                        tabView.setPadding(0, 0, 0, 0);
-                        //因为我想要的效果是   字多宽线就多宽，所以测量mTextView的宽度
-                        int width = 0;
-                        width = mTextView.getWidth();
-                        if (width == 0) {
-                            mTextView.measure(0, 0);
-                            width = mTextView.getMeasuredWidth();
-                        }
-                        //设置tab左右间距为10dp  注意这里不能使用Padding 因为源码中线的宽度是根据 tabView的宽度来设置的
-                        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tabView.getLayoutParams();
-                        params.width = width;
-                        params.leftMargin = dp10;
-                        params.rightMargin = dp10;
-                        tabView.setLayoutParams(params);
-                        tabView.invalidate();
-                    }
-
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        return tabLayout;
     }
 }

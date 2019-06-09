@@ -16,8 +16,6 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SearchView searchView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         TimerTask timerTask=new TimerTask() {
             @Override
             public void run() {
-                Intent mainPageIntent=new Intent(MainActivity.this, MainPage1.class);
+                Intent mainPageIntent=new Intent(MainActivity.this, FrameLayoutActivity.class);
                 startActivity(mainPageIntent);
                 MainActivity.this.finish();
             }

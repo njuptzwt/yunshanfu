@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Activity.MainPage1">
+    android:orientation="vertical">
 
     <!--着重解决如何使得控件能够在一个水平面上平行布置,使用RelativeLayout布局
-    ，使用height控制控件的高度一样，然后在居中对齐-->
+   ，使用height控制控件的高度一样，然后在居中对齐-->
     <RelativeLayout
         android:id="@+id/RL1"
         android:layout_width="match_parent"
@@ -48,16 +46,15 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/Rc1"
+        android:id="@+id/RC1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp">
-
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
-        android:id="@+id/main_fragment"
+        android:id="@+id/banner_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -76,11 +73,11 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:tabIndicatorColor="@color/colorAccent"
             app:tabBackground="@android:color/transparent"
-            app:tabRippleColor="@android:color/transparent"
+            app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorFullWidth="false"
-            app:tabIndicatorHeight="3dp">
+            app:tabIndicatorHeight="3dp"
+            app:tabRippleColor="@android:color/transparent">
         </android.support.design.widget.TabLayout>
 
         <!--控件不可见可以设置-->
@@ -93,5 +90,4 @@
             android:visibility="visible">
         </android.support.v4.view.ViewPager>
     </LinearLayout>
-
 </LinearLayout>

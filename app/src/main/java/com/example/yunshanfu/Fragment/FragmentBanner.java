@@ -114,7 +114,6 @@ public class FragmentBanner extends Fragment implements ViewPager.OnPageChangeLi
             } else {
                 indicationPoint[i].setBackgroundResource(R.drawable.page_indicator_unfocused);
             }
-
         }
     }
 
