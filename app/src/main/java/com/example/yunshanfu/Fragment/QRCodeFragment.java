@@ -1,26 +1,37 @@
 package com.example.yunshanfu.Fragment;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.yunshanfu.R;
+import com.example.yunshanfu.Utils.CodeUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.io.InputStream;
 import java.util.Hashtable;
 
 /**
@@ -34,6 +45,15 @@ import java.util.Hashtable;
 public class QRCodeFragment extends Fragment {
 
     private ImageView imageView;
+    private ImageView imageView1;
+    private  ImageView image;
+    private Button bt1;
+    private Button bt2;
+
+    // 使用Dialog来实现图片的缩放
+    private Dialog d1;
+    private Dialog d2;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -82,13 +102,89 @@ public class QRCodeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_qrcode, container, false);
         imageView = view.findViewById(R.id.QRcode1);
-        Bitmap logoBitmap= BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher_small);
-        Bitmap b1=createQRCodeBitmap("hello world", 800, 800,
-                "UTF-8","H", "1",
-                Color.BLACK, Color.WHITE,logoBitmap,0.15f);
+        imageView1 = view.findViewById(R.id.QRcode2);
+        bt1=view.findViewById(R.id.fukuanma);
+        bt2=view.findViewById(R.id.shouqianma);
+        bt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button temp=(Button) v;
+                temp.setTextColor(Color.RED);
+            }
+        });
+        bt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button temp=(Button) v;
+                temp.setTextColor(Color.RED);
+            }
+        });
+        Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_small);
+        Bitmap b1 = createQRCodeBitmap("hello world", 400, 400,
+                "UTF-8", "H", "1",
+                Color.BLACK, Color.WHITE, logoBitmap, 0.15f);
         imageView.setImageBitmap(b1);
+        // 设置imageView的点击响应事件
+        initDialog1();
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // v.getRootView().setVisibility(View.INVISIBLE);
+                d1.show();
+            }
+        });
+
+        // 生成条形码相关
+        Bitmap barCode = CodeUtils.creatBarcode("134567893454537654", 1000, 300);
+        imageView1.setImageBitmap(barCode);
         return view;
     }
+
+    // Dialog1初始化
+    private void initDialog1() {
+        d1 = new Dialog(getContext(), R.style.FullActivity);
+
+        // 设置高度,自定义设置Dialog的宽度
+//        WindowManager manager=getActivity().getWindowManager();
+//        Display d=manager.getDefaultDisplay();
+//        WindowManager.LayoutParams attributes = d1.getWindow().getAttributes();
+//        attributes.width = (int)(d.getHeight()*0.3);
+//        attributes.height = (int)(d.getWidth()*0.5);
+        WindowManager.LayoutParams attributes = d1.getWindow().getAttributes();
+        attributes.width = WindowManager.LayoutParams.MATCH_PARENT;
+        attributes.height = WindowManager.LayoutParams.MATCH_PARENT;
+
+        d1.getWindow().setAttributes(attributes);
+        image = getImageView();
+        d1.setContentView(image);
+        //大图的点击事件（点击让他消失）
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // v.getRootView().setVisibility(View.VISIBLE);
+                d1.dismiss();
+            }
+        });
+    }
+
+    //动态的ImageView
+    private ImageView getImageView() {
+        ImageView imageView = new ImageView(getContext());
+//        ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(imageView.getLayoutParams());
+//        margin.leftMargin=40;
+//        margin.rightMargin=40;
+//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(margin);
+//        imageView.setLayoutParams(layoutParams);
+        //宽高
+        imageView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_small);
+        Bitmap b1 = createQRCodeBitmap("hello world", 400, 400,
+                "UTF-8", "H", "1",
+                Color.BLACK, Color.WHITE, logoBitmap, 0.15f);
+        imageView.setImageBitmap(b1);
+        return imageView;
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -199,10 +295,11 @@ public class QRCodeFragment extends Fragment {
         }
     }
 
-    /** 向二维码中间添加logo图片(图片合成)
+    /**
+     * 向二维码中间添加logo图片(图片合成)
      *
-     * @param srcBitmap 原图片（生成的简单二维码图片）
-     * @param logoBitmap logo图片
+     * @param srcBitmap   原图片（生成的简单二维码图片）
+     * @param logoBitmap  logo图片
      * @param logoPercent 百分比 (用于调整logo图片在原图片中的显示大小, 取值范围[0,1] )
      * @return
      */
