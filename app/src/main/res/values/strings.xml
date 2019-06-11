@@ -10,4 +10,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="money1">点击可查看付款码数字</string>
     <string name="money2">更多设置</string>
+    <string name="fukaun">扫一扫向我付款</string>
+    <string name="SetMoney">设置金额</string>
 </resources>

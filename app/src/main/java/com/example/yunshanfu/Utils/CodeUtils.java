@@ -15,6 +15,8 @@ public class CodeUtils {
     private static final int BLACK = 0xff000000;
     private static final int WHITE = 0xFFFFFFFF;
     private static BarcodeFormat barcodeFormat= BarcodeFormat.CODE_128;
+
+    // 传入的值是像素值，像素点
     public  static Bitmap creatBarcode(String contents, int desiredWidth, int desiredHeight) {
         MultiFormatWriter writer = new MultiFormatWriter();
         BitMatrix result=null;
