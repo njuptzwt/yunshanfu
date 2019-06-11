@@ -46,7 +46,7 @@ public class QRCodeFragment extends Fragment {
 
     private ImageView imageView;
     private ImageView imageView1;
-    private  ImageView image;
+    private ImageView image;
     private Button bt1;
     private Button bt2;
 
@@ -103,20 +103,16 @@ public class QRCodeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_qrcode, container, false);
         imageView = view.findViewById(R.id.QRcode1);
         imageView1 = view.findViewById(R.id.QRcode2);
-        bt1=view.findViewById(R.id.fukuanma);
-        bt2=view.findViewById(R.id.shouqianma);
+        bt1 = view.findViewById(R.id.fukuanma);
+        bt2 = view.findViewById(R.id.shouqianma);
         bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button temp=(Button) v;
-                temp.setTextColor(Color.RED);
             }
         });
         bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button temp=(Button) v;
-                temp.setTextColor(Color.RED);
             }
         });
         Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_small);
@@ -143,20 +139,20 @@ public class QRCodeFragment extends Fragment {
     // Dialog1初始化
     private void initDialog1() {
         d1 = new Dialog(getContext(), R.style.FullActivity);
-
-        // 设置高度,自定义设置Dialog的宽度
-//        WindowManager manager=getActivity().getWindowManager();
-//        Display d=manager.getDefaultDisplay();
-//        WindowManager.LayoutParams attributes = d1.getWindow().getAttributes();
-//        attributes.width = (int)(d.getHeight()*0.3);
-//        attributes.height = (int)(d.getWidth()*0.5);
+        // dialog设置为全屏
         WindowManager.LayoutParams attributes = d1.getWindow().getAttributes();
         attributes.width = WindowManager.LayoutParams.MATCH_PARENT;
         attributes.height = WindowManager.LayoutParams.MATCH_PARENT;
-
         d1.getWindow().setAttributes(attributes);
+        // 设置image的宽度和高度，在dialog里面
         image = getImageView();
-        d1.setContentView(image);
+        ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(image.getLayoutParams());
+        margin.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+        margin.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        // 设置的是像素值，能否转化为dp值，需要改进
+        margin.setMargins(150, 600, 150, 100);
+        d1.setContentView(image, margin);
+        //d1.setContentView(image,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         //大图的点击事件（点击让他消失）
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,15 +166,10 @@ public class QRCodeFragment extends Fragment {
     //动态的ImageView
     private ImageView getImageView() {
         ImageView imageView = new ImageView(getContext());
-//        ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(imageView.getLayoutParams());
-//        margin.leftMargin=40;
-//        margin.rightMargin=40;
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(margin);
-//        imageView.setLayoutParams(layoutParams);
         //宽高
         imageView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_small);
-        Bitmap b1 = createQRCodeBitmap("hello world", 400, 400,
+        Bitmap b1 = createQRCodeBitmap("hello world", 800, 800,
                 "UTF-8", "H", "1",
                 Color.BLACK, Color.WHITE, logoBitmap, 0.15f);
         imageView.setImageBitmap(b1);
